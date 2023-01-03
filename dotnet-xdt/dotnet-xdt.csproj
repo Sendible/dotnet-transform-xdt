@@ -3,18 +3,16 @@
     <Deterministic>true</Deterministic>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
 
-    <_ExeTFM>net461</_ExeTFM>
-    <_LibTFM>netstandard2.0</_LibTFM>
-    <_ToolTFM>netcoreapp2.1</_ToolTFM>
+    <_LibTFM>net6.0</_LibTFM>
+    <_ToolTFM>net6.0</_ToolTFM>
 
-    <TargetFrameworks>$(_ExeTFM);$(_LibTFM);$(_ToolTFM)</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(As)' == 'exe'  ">$(_ExeTFM)</TargetFrameworks>
+    <TargetFrameworks>$(_LibTFM);$(_ToolTFM)</TargetFrameworks>
     <TargetFrameworks Condition=" '$(As)' == 'lib'  ">$(_LibTFM)</TargetFrameworks>
     <TargetFrameworks Condition=" '$(As)' == 'tool' ">$(_ToolTFM)</TargetFrameworks>
 
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <LangVersion>preview</LangVersion>
-    <Nullable>enable</Nullable>
+    <Nullable>Annotations</Nullable>
     <NullableContextOptions>$(Nullable)</NullableContextOptions>
     <Features>strict</Features>
     <DebugType>embedded</DebugType>
@@ -27,7 +25,7 @@
     <RootNamespace>DotNet.Xdt</RootNamespace>
     <AssemblyName>dotnet-xdt</AssemblyName>
 
-    <FileVersion>2.2.1</FileVersion>
+    <FileVersion>3.0.0</FileVersion>
     <Version>$(FileVersion)</Version>
     
     <_ReleaseNotes>
@@ -36,23 +34,18 @@
     </_ReleaseNotes>
   </PropertyGroup>
 
-  <PropertyGroup Label="Library" Condition=" '$(TargetFrameworks)' == '$(_LibTFM)' ">
+  <PropertyGroup Label="Library" Condition=" '$(As)' == 'lib' ">
     <OutputType>Library</OutputType>
     <AssemblyName>DotNet.Xdt</AssemblyName>
     <AssemblyTitle>.NET Standard 2.0 library for XDT (XML Document Transform).</AssemblyTitle>
     <_PackageTags>netstandard20</_PackageTags>
   </PropertyGroup>
 
-  <PropertyGroup Label="GlobalTool" Condition=" '$(TargetFrameworks)' == '$(_ToolTFM)' ">
+  <PropertyGroup Label="GlobalTool" Condition=" '$(As)' == 'tool' ">
     <RollForward>Major</RollForward>
     <PackAsTool>true</PackAsTool>
     <AssemblyTitle>XDT (XML Document Transform) tool for .NET Core.</AssemblyTitle>
-    <_PackageTags>netcoreapp21;global-tool</_PackageTags>
-  </PropertyGroup>
-
-  <PropertyGroup Label="Executable" Condition=" '$(TargetFrameworks)' == '$(_ExeTFM)' ">
-    <IsPackable>false</IsPackable>
-    <AssemblyTitle>XDT (XML Document Transform) tool for .NET 4.6.1.</AssemblyTitle>
+    <_PackageTags>net6.0;global-tool</_PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Label="Package">

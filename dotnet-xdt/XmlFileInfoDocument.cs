@@ -95,7 +95,9 @@ namespace DotNet.Xdt
                 else if (buffer[0] == 0xFF && buffer[1] == 0xFE)
                     encoding = Encoding.Unicode;
                 else if (buffer[0] == 0x2B && buffer[1] == 0x2F && buffer[2] == 0x76)
+#pragma warning disable SYSLIB0001
                     encoding = Encoding.UTF7;
+#pragma warning restore SYSLIB0001
 
                 // Reset the stream
                 stream.Seek(0, SeekOrigin.Begin);
@@ -160,7 +162,7 @@ namespace DotNet.Xdt
             {
                 if (_textEncoding is not null)
                     return _textEncoding;
-                
+
                 // Copied from base implementation of XmlDocument
                 if (HasChildNodes)
                 {
@@ -191,7 +193,7 @@ namespace DotNet.Xdt
                     var textWriter = new XmlTextWriter(filename, TextEncoding) { Formatting = Formatting.Indented };
                     xmlWriter = textWriter;
                 }
-                
+
                 WriteTo(xmlWriter);
             }
             finally
@@ -229,10 +231,10 @@ namespace DotNet.Xdt
             }
         }
 
-        public override XmlElement CreateElement(string prefix, string localName, string namespaceUri) 
+        public override XmlElement CreateElement(string prefix, string localName, string namespaceUri)
             => HasErrorInfo ? new XmlFileInfoElement(prefix, localName, namespaceUri, this) : base.CreateElement(prefix, localName, namespaceUri);
 
-        public override XmlAttribute CreateAttribute(string prefix, string localName, string namespaceUri) 
+        public override XmlAttribute CreateAttribute(string prefix, string localName, string namespaceUri)
             => HasErrorInfo ? new XmlFileInfoAttribute(prefix, localName, namespaceUri, this) : base.CreateAttribute(prefix, localName, namespaceUri);
 
         internal bool IsNewNode(XmlNode node)
@@ -299,7 +301,7 @@ namespace DotNet.Xdt
                     attrs[i].WriteTo(w);
             }
 
-            void WritePreservedAttributesTo(XmlAttributePreservingWriter preservingWriter) 
+            void WritePreservedAttributesTo(XmlAttributePreservingWriter preservingWriter)
                 => _preservationDict!.WritePreservedAttributes(preservingWriter, Attributes);
 
             public bool HasLineInfo() => true;
@@ -310,10 +312,10 @@ namespace DotNet.Xdt
 
             public bool IsOriginal { get; }
 
-            void IXmlFormattableAttributes.FormatAttributes(XmlFormatter formatter) 
+            void IXmlFormattableAttributes.FormatAttributes(XmlFormatter formatter)
                 => _preservationDict!.UpdatePreservationInfo(Attributes, formatter);
 
-            string? IXmlFormattableAttributes.AttributeIndent 
+            string? IXmlFormattableAttributes.AttributeIndent
                 => _preservationDict!.GetAttributeNewLineString(null);
         }
 
